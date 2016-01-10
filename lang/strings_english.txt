@@ -1,0 +1,4 @@
+<?php
+$s_plugin_ForceMonitor_name = 'ForceMonitor';
+$s_plugin_ForceMonitor_config = 'ForceMonitor configuration';
+$s_plugin_ForceMonitor_users_always_monitor = 'Users who monitors all new bugs';

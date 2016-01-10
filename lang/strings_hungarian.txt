@@ -1,0 +1,4 @@
+<?php
+$s_plugin_ForceMonitor_name = 'ForceMonitor';
+$s_plugin_ForceMonitor_config = 'ForceMonitor beállítások';
+$s_plugin_ForceMonitor_users_always_monitor = 'Felhasználók akik minden új ügyet ellenőriznek';
