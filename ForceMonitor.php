@@ -13,9 +13,10 @@ class ForceMonitorPlugin extends MantisPlugin {
 		$this->description = 'Forcefully adds the specified monitors to each new issue.';	# Short description of the plugin
 		$this->page = 'config';		   # Default plugin page
 
-		$this->version = '0.1';	 # Plugin version string
+		$this->version = '0.2';	 # Plugin version string
 		$this->requires = array(	# Plugin dependencies, array of basename => version pairs
 			'MantisCore' => '1.3.0',  #   Should always depend on an appropriate version of MantisBT
+			'MantisCore' => '2.0.0',
 			);
 
 		$this->author = 'Tamás Gulácsi';		 # Author/team name
