@@ -17,47 +17,53 @@
 auth_reauthenticate( );
 access_ensure_global_level( config_get( 'manage_plugin_threshold' ) );
 
-html_page_top( plugin_lang_get( 'name' ) );
+layout_page_header( lang_get( 'plugin_format_title' ) );
 
-print_manage_menu( );
+layout_page_begin( 'manage_overview_page.php' );
 
+print_manage_menu( 'manage_plugin_page.php' );
 
 require_once( dirname(__FILE__).'/../core/forcemonitor_api.php' );
-
 ?>
 
-<br/>
-<form action="<?php echo plugin_page( 'config_edit' )?>" method="post">
+<div class="col-md-12 col-xs-12">
+<div class="space-10"></div>
+<div class="form-container" >
+
+<form id="formatting-config-form" action="<?php echo plugin_page( 'config_edit' )?>" method="post">
 <?php echo form_security_field( 'plugin_forcemonitor_config_edit' ) ?>
-<table align="center" class="width50" cellspacing="1">
 
-<tr>
-	<td class="form-title" colspan="3">
+<div class="widget-box widget-color-blue2">
+<div class="widget-header widget-header-small">
+	<h4 class="widget-title lighter">
+		<i class="ace-icon fa fa-video-camera"></i>
 		<?php echo plugin_lang_get( 'config' )?>
-	</td>
-</tr>
-
-<tr <?php echo helper_alternate_class( )?>>
-	<td class="category" width="60%">
+	</h4>
+</div>
+<div class="widget-body">
+<div class="widget-main no-padding">
+<div class="table-responsive">
+<table class="table table-bordered table-condensed table-striped">
+<tr>
+	<th class="category width-40">
 		<?php echo plugin_lang_get( 'users_always_monitor' )?>
-	</td>
+	</th>
 <?php
 	$t_monitors_s = list2str(str2list(plugin_config_get( 'users_always_monitor', '' )));
 ?>
 	<td class="center" width="20%">
-		<input type="text" name="users_always_monitor" value="<?php echo $t_monitors_s; ?>" />
-	</td>
-</tr>
-
-<tr>
-	<td class="center" colspan="3">
-		<input type="submit" class="button" value="<?php echo lang_get( 'change_configuration' )?>" />
+		<input type="text" class="ace" name="users_always_monitor" value="<?php echo $t_monitors_s; ?>" />
 	</td>
 </tr>
 
 </table>
+</div>
+</div>
+<div class="widget-toolbox padding-8 clearfix">
+	<input type="submit" class="btn btn-primary btn-white btn-round" value="<?php echo lang_get( 'change_configuration' )?>" />
+</div>
+</div>
+</div>
 </form>
-
-<?php
-html_page_bottom();
-?>
+</div>
+</div>

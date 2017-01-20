@@ -15,7 +15,6 @@ class ForceMonitorPlugin extends MantisPlugin {
 
 		$this->version = '0.2';	 # Plugin version string
 		$this->requires = array(	# Plugin dependencies, array of basename => version pairs
-			'MantisCore' => '1.3.0',  #   Should always depend on an appropriate version of MantisBT
 			'MantisCore' => '2.0.0',
 			);
 
