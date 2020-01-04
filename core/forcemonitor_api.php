@@ -28,7 +28,7 @@ if( !function_exists('str2list') ) {
 		if ( !is_array($p_arr) ) {
 			$p_arr = explode(',', $p_arr);
 		}
-		require_once( 'core.php' );
+		require_once( MANTIS_DIR . '/core.php' );
 		require_api( 'custom_field_api.php' );
 		$ret = array();
 		foreach($p_arr as $field) {
@@ -48,7 +48,7 @@ if( !function_exists('str2list') ) {
 		if ( !is_array($p_arr) ) {
 			$p_arr = explode(',', $p_arr);
 		}
-		require_once( 'core.php' );
+		require_once( MANTIS_DIR . '/core.php' );
 		require_api( 'custom_field_api.php' );
 		$ret = array();
 		foreach($p_arr as $t_id) {
@@ -63,7 +63,7 @@ if( !function_exists('str2list') ) {
 	}
 
 	function names2uids($p_arr) {
-		require_once( 'core.php' );
+		require_once( MANTIS_DIR . '/core.php' );
 		$ret = array();
 		foreach($p_arr as $name) {
 			$t_id = user_get_id_by_name($name);
@@ -75,7 +75,7 @@ if( !function_exists('str2list') ) {
 	}
 
 	function uids2names($p_arr) {
-		require_once( 'core.php' );
+		require_once( MANTIS_DIR . '/core.php' );
 
 		$ret = array();
 		foreach($p_arr as $t_id) {

@@ -19,7 +19,6 @@ form_security_validate( 'plugin_forcemonitor_config_edit' );
 auth_reauthenticate( );
 access_ensure_global_level( config_get( 'manage_plugin_threshold' ) );
 
-//require_once( 'core.php' );
 require_once( dirname(__FILE__).'/../core/forcemonitor_api.php' );
 
 $t_monitors_old = list2str(str2list(plugin_config_get( 'users_always_monitor', '' )));
