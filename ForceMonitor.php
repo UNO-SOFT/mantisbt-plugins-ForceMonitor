@@ -13,7 +13,7 @@ class ForceMonitorPlugin extends MantisPlugin {
 		$this->description = 'Forcefully adds the specified monitors to each new issue.';	# Short description of the plugin
 		$this->page = 'config';		   # Default plugin page
 
-		$this->version = '0.3';	 # Plugin version string
+		$this->version = '0.4';	 # Plugin version string
 		$this->requires = array(	# Plugin dependencies, array of basename => version pairs
 			'MantisCore' => '2.0.0',
 			);
@@ -33,7 +33,7 @@ class ForceMonitorPlugin extends MantisPlugin {
 		return array(
 			'EVENT_MENU_MANAGE' => 'menu_manage',
 			'EVENT_REPORT_BUG' => 'bug_reported',
-            'EVENT_DISPLAY_BUG_ID' => 'display_bug_id',
+            //'EVENT_DISPLAY_BUG_ID' => 'display_bug_id',
 		);
 	}
 
