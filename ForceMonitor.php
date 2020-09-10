@@ -13,7 +13,7 @@ class ForceMonitorPlugin extends MantisPlugin {
 		$this->description = 'Forcefully adds the specified monitors to each new issue.';	# Short description of the plugin
 		$this->page = 'config';		   # Default plugin page
 
-		$this->version = '0.2';	 # Plugin version string
+		$this->version = '0.3';	 # Plugin version string
 		$this->requires = array(	# Plugin dependencies, array of basename => version pairs
 			'MantisCore' => '2.0.0',
 			);
@@ -33,6 +33,7 @@ class ForceMonitorPlugin extends MantisPlugin {
 		return array(
 			'EVENT_MENU_MANAGE' => 'menu_manage',
 			'EVENT_REPORT_BUG' => 'bug_reported',
+            'EVENT_DISPLAY_BUG_ID' => 'display_bug_id',
 		);
 	}
 
@@ -42,6 +43,13 @@ class ForceMonitorPlugin extends MantisPlugin {
 			return array( '<a href="' . plugin_page( 'config.php' ) . '">'
 				.  plugin_lang_get('config') . '</a>', );
 		}
+	}
+
+	function display_bug_id($p_event, $p_str) {
+		if( strlen($p_str) > 1 && substr_compare( $p_str, "#", 0, 1 ) == 0 ) {
+			return $p_str;
+		}
+		return "#" . $p_str;
 	}
 
 	function bug_reported($p_event, $p_bug_data) {
@@ -66,3 +74,5 @@ class ForceMonitorPlugin extends MantisPlugin {
 	}
 
 }
+
+// vim: set noet:
