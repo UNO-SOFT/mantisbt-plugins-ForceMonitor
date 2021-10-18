@@ -62,27 +62,83 @@ if( !function_exists('str2list') ) {
 		return $ret;
 	}
 
-	function names2uids($p_arr) {
-		require_once( MANTIS_DIR . '/core.php' );
-		$ret = array();
-		foreach($p_arr as $name) {
-			$t_id = user_get_id_by_name($name);
-			if( $t_id && user_is_enabled($t_id) ) {
-				$ret[] = $t_id;
-			}
+	function names2uids( $p_arr ) {
+		if ( $p_arr == null || $p_arr == '' ) {
+			return array();
 		}
-		return $ret;
-	}
-
-	function uids2names($p_arr) {
+		if ( !is_array($p_arr) ) {
+			$p_arr = explode(',', $p_arr);
+		}
 		require_once( MANTIS_DIR . '/core.php' );
 
-		$ret = array();
-		foreach($p_arr as $t_id) {
-			if( user_is_enabled($t_id) ) {
-				$ret[] = user_get_name($t_id);
+		$t_ret = array();
+		foreach( $p_arr as $t_name ) {
+            // username:projectA+projectB
+            $pos = strpos($t_name, ':');
+            $t_projects = array();
+            if( $pos !== false ) {
+                $t_projects = names2pids( substr($t_name, $pos+1) );
+                $t_name = substr($t_name, 0, $pos);
+                //echo "<!-- pos=$pos name=$t_name projects=".var_export($t_projects, TRUE)."-->";
+            }
+			$t_user_id = user_get_id_by_name($t_name);
+			if( $t_user_id && user_is_enabled( $t_user_id ) ) {
+				$t_ret[$t_user_id] = $t_projects;
 			}
 		}
-		return $ret;
+        //echo '<!-- names2uids(' . var_export($p_arr, TRUE) . '): '. var_export($t_ret, TRUE) . '; -->';
+		return $t_ret;
 	}
+
+	function uids2names( $p_arr ) {
+		require_once( MANTIS_DIR . '/core.php' );
+
+		$t_ret = array();
+		foreach( $p_arr as $t_user => $t_projects ) {
+			if( user_is_enabled( $t_user ) ) {
+                $t_name = user_get_name( $t_user );
+                if( count($t_projects) == 0 ) {
+                    $t_ret[] = $t_name;
+                } else {
+                    $t_ret[] = $t_name . ":" . pids2names( $t_projects );
+                }
+                //echo "<!-- user=$t_user ".count($t_ret). '. '. $t_ret[count($t_ret)-1].'; -->';
+			}
+		}
+        //echo '<!-- uids2names(' . var_export($p_arr, TRUE) . '): '. var_export($t_ret, TRUE) . '; -->';
+		return $t_ret;
+	}
+
+    function names2pids( $p_arr ) {
+		if ( $p_arr == null || $p_arr == '' ) {
+			return array();
+		}
+		if ( !is_array($p_arr) ) {
+			$p_arr = explode(',', $p_arr);
+		}
+		require_once( MANTIS_DIR . '/core.php' );
+
+		$t_ret = array();
+        foreach( $p_arr as $t_name ) {
+            $t_id = project_get_id_by_name( $t_name );
+            if( $t_id ) {
+                $t_ret[] = $t_id;
+            }
+        }
+        //echo '<!-- names2pids(' . var_export($p_arr, TRUE) . '): '. var_export($t_ret, TRUE) . '; -->';
+        return $t_ret;
+    }
+	function pids2names( $p_arr ) {
+		require_once( MANTIS_DIR . '/core.php' );
+
+		$t_ret = array();
+        foreach( $p_arr as $t_id ) {
+            $t_name = project_get_name( $t_id );
+            if( $t_name ) {
+                $t_ret[] = $t_name;
+            }
+        }
+        //echo '<!-- pids2names(' . var_export($p_arr, TRUE) . '): '. implode('+', $t_ret) . '; -->';
+        return implode('+', $t_ret);
+    }
 }

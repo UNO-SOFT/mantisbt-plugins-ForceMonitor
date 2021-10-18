@@ -17,7 +17,7 @@ class ForceMonitorPlugin extends MantisPlugin {
 		$this->description = 'Forcefully adds the specified monitors to each new issue.';	# Short description of the plugin
 		$this->page = 'config';		   # Default plugin page
 
-		$this->version = '0.4';	 # Plugin version string
+		$this->version = '0.5.0';	 # Plugin version string
 		$this->requires = array(	# Plugin dependencies, array of basename => version pairs
 			'MantisCore' => '2.0.0',
 			);
@@ -59,22 +59,24 @@ class ForceMonitorPlugin extends MantisPlugin {
 	function bug_reported($p_event, $p_bug_data) {
 		log_event( LOG_EMAIL_RECIPIENT, "event=$p_event params=".var_export($p_bug_data, true) );
 		$t_bug_id = $p_bug_data->id;
+        $t_project_id = $p_bug_data->project_id;
 		log_event( LOG_FILTERING, "bug_id=$t_bug_id" );
-		$res = array();
 
 		require_once( dirname(__FILE__).'/core/forcemonitor_api.php' );
-		$res = array_merge($res, str2list( plugin_config_get( 'users_always_monitor', NULL ) ));
+		$t_users = names2uids( plugin_config_get( 'users_always_monitor', NULL ) );
 
 		require_once( MANTIS_CORE . '/bug_api.php' );
 		require_once( MANTIS_CORE . '/user_api.php' );
-		foreach($res as $t_username) {
-			$t_user_id = user_get_id_by_name( $t_username );
-			if( $t_user_id ) {
-				bug_monitor( $t_bug_id, $t_user_id );
-				log_event( LOG_FILTERING, "adding monitor $t_username");
+		foreach( $t_users as $t_user_id => $t_projects ) {
+			if( $t_user_id && user_is_enabled( $t_user_id ) ) {
+                //log_event( LOG_MAIL, "<-- uid=$t_user_id pid=$t_project_id projects=". var_export($t_projects, TRUE) . "-->");
+                if( count( $t_projects ) == 0 || in_array( $t_project_id, $t_projects ) ) {
+                    bug_monitor( $t_bug_id, $t_user_id );
+                    log_event( LOG_FILTERING, "adding monitor $t_username");
+                }
 			}
 		}
-		return $res;
+		return $t_users;
 	}
 
 }
