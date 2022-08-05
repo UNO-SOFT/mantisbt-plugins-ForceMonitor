@@ -4,7 +4,7 @@
 if ( !defined( MANTIS_DIR ) ) {
 	define( MANTIS_DIR, dirname(__FILE__) . '/../..' );
 }
-if ( !defined( MANTIS_CODE ) ) {
+if ( !defined( MANTIS_CORE ) ) {
 	define( MANTIS_CORE, MANTIS_DIR . '/core' );
 }
 
